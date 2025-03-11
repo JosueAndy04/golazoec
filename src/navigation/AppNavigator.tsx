@@ -7,8 +7,7 @@ import SelectTeamScreen from "../screens/SelectTeam";
 import InfoTeamScreen from "../screens/InfoTeam";
 import HomeScreen from "../screens/Home";
 import ProfileScreen from "../screens/Profile";
-import { useTheme } from '../context/ThemeContext';
-
+import { useTheme } from "../context/ThemeContext";
 
 const Stack = createStackNavigator();
 
@@ -26,25 +25,41 @@ const AppNavigator = () => {
         component={LoginScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
+      <Stack.Screen
+        name="CreateAccount"
+        component={CreateAccountScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: isDarkMode ? "black" : "white",
+          },
+          headerTintColor: isDarkMode ? "white" : "black",
+          headerTitleStyle: {
+            color: isDarkMode ? "white" : "black",
+          },
+        }}
+      />
       <Stack.Screen
         name="SelectTeam"
         component={SelectTeamScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="InfoTeam" component={InfoTeamScreen} options={{
-        headerStyle: {
-          backgroundColor: isDarkMode ? 'black' : 'white',
-        },
-        headerTintColor: isDarkMode ? 'white' : 'black',
-        headerTitleStyle: {
-          color: isDarkMode ? 'white' : 'black',
-        },
-      }}/>
+      <Stack.Screen
+        name="InfoTeam"
+        component={InfoTeamScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: isDarkMode ? "black" : "white",
+          },
+          headerTintColor: isDarkMode ? "white" : "black",
+          headerTitleStyle: {
+            color: isDarkMode ? "white" : "black",
+          },
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Profile"
