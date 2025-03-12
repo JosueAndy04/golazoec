@@ -1,0 +1,1 @@
+export const apiFootballValue = "55f05c59ff30a52f847b3bb07844b5af";

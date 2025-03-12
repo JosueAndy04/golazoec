@@ -22,9 +22,20 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
+      const user = userCredential.user;
+      setUser(user);
+
+      // Check if the user has a teamID
+      const teamID = (user as any).teamID; // Replace with the actual way to get teamID from user
+      if (!teamID) {
+        // Navigate to SelectTeamScreen if no teamID
+        navigation.navigate('SelectTeam');
+      } else {
+        // Navigate to Home if teamID is present
+        navigation.navigate('Home');
+      }
+
       Alert.alert('Logged in successfully!');
-      navigation.navigate('Home');
     } catch (error) {
       Alert.alert('Error logging in', (error as any).message);
     }

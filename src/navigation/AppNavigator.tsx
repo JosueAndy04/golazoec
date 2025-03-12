@@ -41,7 +41,14 @@ const AppNavigator = () => {
       <Stack.Screen
         name="SelectTeam"
         component={SelectTeamScreen}
-        options={{ headerShown: false }}
+        options={{ headerStyle: {
+          backgroundColor: isDarkMode ? "black" : "white",
+        },
+        headerTintColor: isDarkMode ? "white" : "black",
+        headerTitleStyle: {
+          color: isDarkMode ? "white" : "black",
+        },
+      }}
       />
       <Stack.Screen
         name="InfoTeam"

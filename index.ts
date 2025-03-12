@@ -7,8 +7,8 @@ export type RootStackParamList = {
   Login: undefined;
   CreateAccount: undefined;
   SelectTeam: undefined;
-  InfoTeam: undefined;
-  Home: undefined;
+  InfoTeam: { teamID: string };
+  Home: { teamID: string };
   Team: undefined;
   Matches: undefined;
   News: undefined;

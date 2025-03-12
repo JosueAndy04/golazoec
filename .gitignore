@@ -42,3 +42,4 @@ build/
 
 # files
 firebaseConfig.ts
+src/api/apiKey.ts
