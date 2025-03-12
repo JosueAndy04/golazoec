@@ -38,6 +38,7 @@ yarn-error.*
 # dir
 android/
 ios/
+build/
 
 # files
 firebaseConfig.ts

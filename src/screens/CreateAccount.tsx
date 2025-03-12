@@ -3,8 +3,9 @@ import { View, Text, Button, StyleSheet, TextInput, Alert, TouchableOpacity, Ima
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../..';
 import { useTheme } from '../context/ThemeContext';
+import { useUser } from '../context/UserContext';
 import { auth } from '../../firebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 
 type CreateAccountScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CreateAccount'>;
@@ -15,6 +16,7 @@ type Props = {
 
 const CreateAccountScreen: React.FC<Props> = ({ navigation }) => {
   const { isDarkMode } = useTheme();
+  const { setUser } = useUser();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +30,16 @@ const CreateAccountScreen: React.FC<Props> = ({ navigation }) => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (profileImage) {
+        await updateProfile(user, { displayName: username, photoURL: profileImage });
+      } else {
+        await updateProfile(user, { displayName: username });
+      }
+
+      setUser(user);
       Alert.alert('Account created successfully!');
       navigation.navigate('SelectTeam');
     } catch (error) {

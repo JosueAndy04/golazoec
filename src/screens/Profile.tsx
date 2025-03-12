@@ -1,11 +1,33 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Switch } from 'react-native';
+import { View, Text, Button, StyleSheet, Switch, Alert } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
+import { useUser } from '../context/UserContext';
+import { auth } from '../../firebaseConfig';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../..';
 
-const ProfileScreen: React.FC = () => {
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
+
+type Props = {
+  navigation: ProfileScreenNavigationProp;
+};
+
+const ProfileScreen: React.FC<Props> = ({ navigation }) => {
   const { isDarkMode, toggleDarkMode } = useTheme();
+  const { setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [isSettings, setIsSettings] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      setUser(null);
+      Alert.alert('Logged out successfully!');
+      navigation.navigate('Start');
+    } catch (error) {
+      Alert.alert('Error logging out', (error as any).message);
+    }
+  };
 
   return (
     <View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -36,6 +58,7 @@ const ProfileScreen: React.FC = () => {
               value={isDarkMode}
             />
           </View>
+          <Button title="Log Out" onPress={handleLogout} />
           <Button title="Back to Profile" onPress={() => setIsSettings(false)} />
         </View>
       )}

@@ -1,11 +1,12 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import MatchesScreen from "./Matches";
 import NewsScreen from "./News";
 import TeamScreen from "./Team";
 import LigaScreen from "./Liga";
 import { useTheme } from '../context/ThemeContext';
+import { useUser } from '../context/UserContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,10 +17,12 @@ type HomeScreenNavigationProp = BottomTabNavigationProp<any>;
 const HomeScreen: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
   navigation,
 }) => {
-    const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme();
+  const { user } = useUser();
+
   return (
     <Tab.Navigator
-    screenOptions={{
+      screenOptions={{
         tabBarStyle: {
           backgroundColor: isDarkMode ? 'black' : 'white',
         },
@@ -31,72 +34,88 @@ const HomeScreen: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
         name="Matches"
         component={MatchesScreen}
         options={{
-            headerRight: () => (
-                <TouchableOpacity
-                  style={styles.profileButton}
-                  onPress={() => navigation.navigate('Profile')}
-                >
-                  <Text style={styles.profileButtonText}>P</Text>
-                </TouchableOpacity>
-              ),
-              headerStyle: {
-                backgroundColor: isDarkMode ? 'black' : 'white',
-              },
-              headerTintColor: isDarkMode ? 'white' : 'black',
+          headerRight: () => (
+            <TouchableOpacity
+              style={styles.profileButton}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              {user?.photoURL ? (
+                <Image source={{ uri: user.photoURL }} style={styles.profileImage} />
+              ) : (
+                <Text style={styles.profileButtonText}>P</Text>
+              )}
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: isDarkMode ? 'black' : 'white',
+          },
+          headerTintColor: isDarkMode ? 'white' : 'black',
         }}
       />
       <Tab.Screen
         name="News"
         component={NewsScreen}
         options={{
-            headerRight: () => (
-                <TouchableOpacity
-                  style={styles.profileButton}
-                  onPress={() => navigation.navigate('Profile')}
-                >
-                  <Text style={styles.profileButtonText}>P</Text>
-                </TouchableOpacity>
-              ),
-              headerStyle: {
-                backgroundColor: isDarkMode ? 'black' : 'white',
-              },
-              headerTintColor: isDarkMode ? 'white' : 'black',
+          headerRight: () => (
+            <TouchableOpacity
+              style={styles.profileButton}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              {user?.photoURL ? (
+                <Image source={{ uri: user.photoURL }} style={styles.profileImage} />
+              ) : (
+                <Text style={styles.profileButtonText}>P</Text>
+              )}
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: isDarkMode ? 'black' : 'white',
+          },
+          headerTintColor: isDarkMode ? 'white' : 'black',
         }}
       />
       <Tab.Screen
         name="Teams"
         component={TeamScreen}
         options={{
-            headerRight: () => (
-                <TouchableOpacity
-                  style={styles.profileButton}
-                  onPress={() => navigation.navigate('Profile')}
-                >
-                  <Text style={styles.profileButtonText}>P</Text>
-                </TouchableOpacity>
-              ),
-              headerStyle: {
-                backgroundColor: isDarkMode ? 'black' : 'white',
-              },
-              headerTintColor: isDarkMode ? 'white' : 'black',
+          headerRight: () => (
+            <TouchableOpacity
+              style={styles.profileButton}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              {user?.photoURL ? (
+                <Image source={{ uri: user.photoURL }} style={styles.profileImage} />
+              ) : (
+                <Text style={styles.profileButtonText}>P</Text>
+              )}
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: isDarkMode ? 'black' : 'white',
+          },
+          headerTintColor: isDarkMode ? 'white' : 'black',
         }}
       />
       <Tab.Screen
         name="Liga"
         component={LigaScreen}
         options={{
-            headerRight: () => (
-                <TouchableOpacity
-                  style={styles.profileButton}
-                  onPress={() => navigation.navigate('Profile')}
-                >
-                  <Text style={styles.profileButtonText}>P</Text>
-                </TouchableOpacity>
-              ),
-              headerStyle: {
-                backgroundColor: isDarkMode ? 'black' : 'white',
-              },
-              headerTintColor: isDarkMode ? 'white' : 'black',
+          headerRight: () => (
+            <TouchableOpacity
+              style={styles.profileButton}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              {user?.photoURL ? (
+                <Image source={{ uri: user.photoURL }} style={styles.profileImage} />
+              ) : (
+                <Text style={styles.profileButtonText}>P</Text>
+              )}
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: isDarkMode ? 'black' : 'white',
+          },
+          headerTintColor: isDarkMode ? 'white' : 'black',
         }}
       />
     </Tab.Navigator>
@@ -116,6 +135,11 @@ const styles = StyleSheet.create({
   profileButtonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
 });
 

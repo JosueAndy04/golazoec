@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, TextInput, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../..';
 import { useTheme } from '../context/ThemeContext';
+import { useUser } from '../context/UserContext';
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -14,14 +15,16 @@ type Props = {
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { isDarkMode } = useTheme();
+  const { setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
       Alert.alert('Logged in successfully!');
-      navigation.navigate('SelectTeam');
+      navigation.navigate('Home');
     } catch (error) {
       Alert.alert('Error logging in', (error as any).message);
     }
@@ -31,14 +34,14 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     <View style={[styles.container, isDarkMode && styles.darkContainer]}>
       <Text style={[styles.text, isDarkMode && styles.darkText]}>Login Screen</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, isDarkMode && styles.darkInput]}
         placeholder="Email"
         placeholderTextColor={isDarkMode ? 'white' : 'black'}
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, isDarkMode && styles.darkInput]}
         placeholder="Password"
         placeholderTextColor={isDarkMode ? 'white' : 'black'}
         secureTextEntry
@@ -75,6 +78,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     color: 'black',
+  },
+  darkInput: {
+    color: 'white',
+    borderColor: 'white',
   },
 });
 
